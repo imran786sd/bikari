@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bikari - Budget Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+  <script defer src="firebase-config.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div id="login-section">
+    <h1>Welcome to Bikari</h1>
+    <button id="google-login">Login with Google</button>
+  </div>
+
+  
+<nav>
+  <button id="tab-dashboard">Dashboard</button>
+  <button id="tab-profile">Profile</button>
+</nav>
+<div id="dashboard" class="hidden tab-content">
+
+    <header>
+      <h2>Bikari Dashboard</h2>
+      <div id="user-info"></div>
+      <button id="logout">Logout</button>
+    </header>
+    <main>
+      <section id="summary">
+        <h3>Summary</h3>
+        <p>Total Income: $<span id="income-total">0</span></p>
+        <p>Total Expense: $<span id="expense-total">0</span></p>
+        <p>Balance: $<span id="balance">0</span></p>
+      </section>
+      <section id="chart-area">
+        <h3>Spending Overview</h3>
+        <canvas id="spending-chart"></canvas>
+      </section>
+    
+      <section id="download">
+        <h3>Export</h3>
+        <button id="download-csv">Download CSV</button>
+      </section>
+    </main>
+
+  </div>
+
+<div id="profile" class="hidden tab-content">
+  <h2>User Profile</h2>
+  <p id="profile-name"></p>
+  <p id="profile-email"></p>
+  <img id="profile-pic" width="80" style="border-radius:50%" />
+  <br />
+  <button id="pro-upgrade">Upgrade to Pro</button>
+</div>
+</body>
+
+</html>
