@@ -135,3 +135,92 @@ function drawCharts(transactions) {
     }
   });
 }
+
+
+// Tab switching
+document.getElementById("tab-dashboard").addEventListener("click", () => {
+  showTab("dashboard");
+});
+document.getElementById("tab-profile").addEventListener("click", () => {
+  showTab("profile");
+});
+
+function showTab(tabId) {
+  document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+  document.getElementById(tabId).classList.add("active");
+}
+
+function setupProfile(user) {
+  document.getElementById("profile-name").textContent = user.displayName;
+  document.getElementById("profile-email").textContent = user.email;
+  document.getElementById("profile-pic").src = user.photoURL;
+}
+
+function exportToCSV(transactions) {
+  let csv = "Date,Description,Amount,Type\n";
+  transactions.forEach(t => {
+    const date = new Date(t.date.seconds * 1000).toLocaleDateString();
+    csv += `${date},${t.desc},${t.amount},${t.type}\n`;
+  });
+  const blob = new Blob([csv], { type: "text/csv" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "bikari_transactions.csv";
+  link.click();
+}
+
+document.getElementById("download-csv").addEventListener("click", () => {
+  firebase.firestore().collection("transactions")
+    .where("uid", "==", currentUser.uid)
+    .get()
+    .then(snapshot => {
+      const data = [];
+      snapshot.forEach(doc => data.push(doc.data()));
+      exportToCSV(data);
+    });
+});
+
+// Activate dashboard tab by default on login
+document.addEventListener("DOMContentLoaded", () => {
+  showTab("dashboard");
+});
+
+document.getElementById("time-filter").addEventListener("change", () => {
+  loadTransactions();
+});
+
+function filterTransactions(transactions) {
+  const filter = document.getElementById("time-filter").value;
+  const now = new Date();
+
+  return transactions.filter(t => {
+    const d = new Date(t.date.seconds * 1000);
+
+    if (filter === "day") {
+      return d.toDateString() === now.toDateString();
+    } else if (filter === "week") {
+      const startOfWeek = new Date(now);
+      startOfWeek.setDate(now.getDate() - now.getDay());
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(endOfWeek.getDate() + 6);
+      return d >= startOfWeek && d <= endOfWeek;
+    } else if (filter === "month") {
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    } else if (filter === "year") {
+      return d.getFullYear() === now.getFullYear();
+    }
+    return true;
+  });
+}
+
+async function loadTransactions() {
+  const snapshot = await firebase.firestore().collection("transactions")
+    .where("uid", "==", currentUser.uid).get();
+
+  const data = [];
+  snapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() }));
+
+  const filtered = filterTransactions(data);
+  displayTransactions(filtered);
+  drawCharts(filtered);
+}

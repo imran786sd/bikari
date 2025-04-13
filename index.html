@@ -19,7 +19,13 @@
     <button id="google-login">Login with Google</button>
   </div>
 
-  <div id="dashboard" class="hidden">
+  
+<nav>
+  <button id="tab-dashboard">Dashboard</button>
+  <button id="tab-profile">Profile</button>
+</nav>
+<div id="dashboard" class="hidden tab-content">
+
     <header>
       <h2>Bikari Dashboard</h2>
       <div id="user-info"></div>
@@ -36,7 +42,23 @@
         <h3>Spending Overview</h3>
         <canvas id="spending-chart"></canvas>
       </section>
+    
+      <section id="download">
+        <h3>Export</h3>
+        <button id="download-csv">Download CSV</button>
+      </section>
     </main>
+
   </div>
+
+<div id="profile" class="hidden tab-content">
+  <h2>User Profile</h2>
+  <p id="profile-name"></p>
+  <p id="profile-email"></p>
+  <img id="profile-pic" width="80" style="border-radius:50%" />
+  <br />
+  <button id="pro-upgrade">Upgrade to Pro</button>
+</div>
 </body>
+
 </html>

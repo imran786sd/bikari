@@ -39,3 +39,20 @@ canvas {
   max-width: 600px;
   height: auto;
 }
+
+nav {
+  text-align: center;
+  background: #e0e0e0;
+  padding: 10px;
+}
+nav button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
