@@ -1,0 +1,41 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f7f9fc;
+  color: #333;
+}
+.hidden {
+  display: none;
+}
+#login-section {
+  text-align: center;
+  padding: 80px 20px;
+}
+#google-login {
+  background: #4285F4;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#dashboard {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#summary {
+  margin-top: 20px;
+}
+canvas {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
