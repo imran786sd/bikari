@@ -230,3 +230,34 @@ async function loadTransactions() {
   displayTransactions(filtered);
   drawCharts(filtered);
 }
+
+
+let isProUser = false;
+
+function setupProfile(user) {
+  document.getElementById("profile-name").textContent = user.displayName;
+  document.getElementById("profile-email").textContent = user.email;
+  document.getElementById("profile-pic").src = user.photoURL;
+
+  const userDocRef = firebase.firestore().collection("users").doc(user.uid);
+  userDocRef.get().then(doc => {
+    if (doc.exists && doc.data().isPro) {
+      isProUser = true;
+      document.getElementById("download-csv").disabled = false;
+      document.getElementById("download-csv").title = "";
+    } else {
+      isProUser = false;
+      document.getElementById("download-csv").disabled = true;
+      document.getElementById("download-csv").title = "Upgrade to Pro to unlock this feature";
+    }
+  });
+
+  document.getElementById("pro-upgrade").addEventListener("click", () => {
+    userDocRef.set({ isPro: true }, { merge: true }).then(() => {
+      alert("Pro Mode Activated!");
+      isProUser = true;
+      document.getElementById("download-csv").disabled = false;
+      document.getElementById("download-csv").title = "";
+    });
+  });
+};
