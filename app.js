@@ -75,3 +75,63 @@ function drawCharts(transactions) {
   // Placeholder for bar and pie charts
   // Chart.js logic can go here next
 }
+
+
+let barChart, pieChart;
+
+function drawCharts(transactions) {
+  const ctxBar = document.getElementById("bar-chart").getContext("2d");
+  const ctxPie = document.getElementById("pie-chart").getContext("2d");
+
+  const incomeData = {};
+  const expenseData = {};
+
+  transactions.forEach(t => {
+    const date = new Date(t.date.seconds * 1000).toLocaleDateString();
+    const target = t.type === "income" ? incomeData : expenseData;
+    target[date] = (target[date] || 0) + t.amount;
+  });
+
+  const labels = Array.from(new Set([...Object.keys(incomeData), ...Object.keys(expenseData)])).sort();
+
+  const incomeValues = labels.map(label => incomeData[label] || 0);
+  const expenseValues = labels.map(label => expenseData[label] || 0);
+
+  if (barChart) barChart.destroy();
+  barChart = new Chart(ctxBar, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Income",
+          data: incomeValues,
+          backgroundColor: "rgba(75, 192, 192, 0.6)"
+        },
+        {
+          label: "Expense",
+          data: expenseValues,
+          backgroundColor: "rgba(255, 99, 132, 0.6)"
+        }
+      ]
+    }
+  });
+
+  const categoryTotals = {};
+  transactions.forEach(t => {
+    const key = t.type;
+    categoryTotals[key] = (categoryTotals[key] || 0) + t.amount;
+  });
+
+  if (pieChart) pieChart.destroy();
+  pieChart = new Chart(ctxPie, {
+    type: "pie",
+    data: {
+      labels: Object.keys(categoryTotals),
+      datasets: [{
+        data: Object.values(categoryTotals),
+        backgroundColor: ["#4bc0c0", "#ff6384"]
+      }]
+    }
+  });
+}
