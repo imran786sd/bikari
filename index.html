@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="firebase-config.js"></script>
   <script defer src="app.js"></script>
 </head>
@@ -19,20 +19,19 @@
     <button id="google-login">Login with Google</button>
   </div>
 
-  
-<nav>
-  <button id="tab-dashboard">Dashboard</button>
-  <button id="tab-profile">Profile</button>
-</nav>
-<div id="dashboard" class="hidden tab-content">
+  <nav>
+    <button id="tab-dashboard">Dashboard</button>
+    <button id="tab-profile">Profile</button>
+  </nav>
 
+  <div id="dashboard" class="hidden tab-content">
     <header>
       <h2>Bikari Dashboard</h2>
       <div id="user-info"></div>
       <button id="logout">Logout</button>
     </header>
+
     <main>
-      <section id="summary">
       <section id="add-transaction">
         <h3>Add Transaction</h3>
         <form id="transaction-form">
@@ -46,32 +45,49 @@
           <button type="submit">Add</button>
         </form>
       </section>
+
+      <section id="summary">
         <h3>Summary</h3>
         <p>Total Income: $<span id="income-total">0</span></p>
         <p>Total Expense: $<span id="expense-total">0</span></p>
         <p>Balance: $<span id="balance">0</span></p>
       </section>
-      <section id="chart-area">
-        <h3>Spending Overview</h3>
-        <canvas id="spending-chart"></canvas>
+
+      <section id="filter">
+        <h3>Filter by Time</h3>
+        <select id="time-filter">
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+          <option value="year">Year</option>
+        </select>
       </section>
-    
+
+      <section id="transactions">
+        <h3>Transactions</h3>
+        <ul id="transaction-list"></ul>
+      </section>
+
+      <section id="charts">
+        <h3>Visual Summary</h3>
+        <canvas id="bar-chart"></canvas>
+        <canvas id="pie-chart"></canvas>
+      </section>
+
       <section id="download">
         <h3>Export</h3>
         <button id="download-csv">Download CSV</button>
       </section>
     </main>
-
   </div>
 
-<div id="profile" class="hidden tab-content">
-  <h2>User Profile</h2>
-  <p id="profile-name"></p>
-  <p id="profile-email"></p>
-  <img id="profile-pic" width="80" style="border-radius:50%" />
-  <br />
-  <button id="pro-upgrade">Upgrade to Pro</button>
-</div>
+  <div id="profile" class="hidden tab-content">
+    <h2>User Profile</h2>
+    <p id="profile-name"></p>
+    <p id="profile-email"></p>
+    <img id="profile-pic" width="80" style="border-radius:50%" />
+    <br />
+    <button id="pro-upgrade">Upgrade to Pro</button>
+  </div>
 </body>
-
 </html>
