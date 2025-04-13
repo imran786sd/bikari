@@ -1,4 +1,4 @@
-// firebase-config.js - using Firebase compat for GitHub Pages
+// firebase-config.js - using Firebase compat for GitHub Pages with Firestore
 const firebaseConfig = {
   apiKey: "AIzaSyCz-ZKoQ2iy_t6SmXOY2ur3HZ605Rm3kRQ",
   authDomain: "bikari-440.firebaseapp.com",
@@ -11,3 +11,4 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
+const db = firebase.firestore();
