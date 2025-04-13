@@ -1,7 +1,4 @@
-// firebase-config.js - using Firebase Modular SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-
+// firebase-config.js - using Firebase compat for GitHub Pages
 const firebaseConfig = {
   apiKey: "AIzaSyCz-ZKoQ2iy_t6SmXOY2ur3HZ605Rm3kRQ",
   authDomain: "bikari-440.firebaseapp.com",
@@ -12,5 +9,5 @@ const firebaseConfig = {
   measurementId: "G-DY5FS3YFXF"
 };
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
