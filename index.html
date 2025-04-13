@@ -33,6 +33,19 @@
     </header>
     <main>
       <section id="summary">
+      <section id="add-transaction">
+        <h3>Add Transaction</h3>
+        <form id="transaction-form">
+          <input type="text" id="desc" placeholder="Description" required />
+          <input type="number" id="amount" placeholder="Amount" required />
+          <select id="type">
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+          <input type="date" id="date" required />
+          <button type="submit">Add</button>
+        </form>
+      </section>
         <h3>Summary</h3>
         <p>Total Income: $<span id="income-total">0</span></p>
         <p>Total Expense: $<span id="expense-total">0</span></p>
