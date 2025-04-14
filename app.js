@@ -167,6 +167,23 @@ function updateCharts(transactions) {
   });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("google-login");
+  if (loginBtn) {
+    loginBtn.addEventListener("click", () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then(result => {
+          console.log("Logged in:", result.user.displayName);
+        })
+        .catch(error => {
+          console.error("Google login failed:", error.message);
+          alert("Login failed: " + error.message);
+        });
+    });
+  }
+});
+
 window.showTab = showTab;
 window.addTransaction = addTransaction;
 window.logout = logout;
