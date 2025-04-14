@@ -1,1 +1,1 @@
-function startStripeCheckout() { alert('Simulated Pro Upgrade'); }
+function startStripeCheckout(){}

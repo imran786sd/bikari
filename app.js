@@ -45,21 +45,23 @@ function addTransaction() {
   const date = document.getElementById("date").value;
   if (!desc || !amt || !date) return alert("Please fill all fields");
 
+  console.log('Saving transaction with UID:', currentUser?.uid);
+  alert('Saving transaction...');
+
   firebase.firestore().collection("transactions").add({
     uid: currentUser.uid,
     desc, amount: amt, type, category, date,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   }).then(() => {
+    alert('Transaction saved successfully!');
     document.getElementById("desc").value = "";
     document.getElementById("amount").value = "";
     toggleAddForm();
   });
 }
 
-
 function loadTransactions() {
-  console.log("Loading transactions for:", currentUser.uid);
-
+  alert('Loading transactions...');
   const list = document.getElementById("transaction-list");
   list.innerHTML = "";
   const transactions = [];
@@ -68,15 +70,13 @@ function loadTransactions() {
     .orderBy("date", "desc")
     .onSnapshot(snapshot => {
       list.innerHTML = "";
-      
       if (snapshot.empty) {
         console.warn("No transactions found.");
         return;
       }
       snapshot.forEach(doc => {
-        console.log("Transaction:", doc.data());
-
         const data = doc.data();
+        console.log("Transaction:", data);
         transactions.push(data);
         const li = document.createElement("li");
         li.textContent = `${data.date} - ${data.category} - ${data.desc}: $${data.amount}`;
