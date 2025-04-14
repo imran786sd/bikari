@@ -59,3 +59,53 @@ window.showTab = showTab;
 window.addTransaction = addTransaction;
 window.logout = logout;
 window.toggleAddForm = toggleAddForm;
+
+function loadTransactions() {
+  firebase.firestore().collection("transactions")
+    .where("uid", "==", currentUser.uid)
+    .orderBy("date", "desc")
+    .onSnapshot(snapshot => {
+      const list = document.getElementById("transaction-list");
+      list.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const li = document.createElement("li");
+        li.textContent = `${data.date} - ${data.type} - ${data.desc}: $${data.amount}`;
+        list.appendChild(li);
+      });
+    });
+}
+
+function addTransaction() {
+  const desc = document.getElementById("desc").value;
+  const amt = parseFloat(document.getElementById("amount").value);
+  const type = document.getElementById("type").value;
+  const date = document.getElementById("date").value;
+  if (!desc || !amt || !date) return alert("Please fill all fields");
+
+  firebase.firestore().collection("transactions").add({
+    uid: currentUser.uid,
+    desc: desc,
+    amount: amt,
+    type: type,
+    date: date,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(() => {
+    document.getElementById("desc").value = "";
+    document.getElementById("amount").value = "";
+    toggleAddForm();
+  });
+}
+
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    currentUser = user;
+    document.getElementById("login-section").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+    document.getElementById("user-info").innerText = "Hi, " + user.displayName;
+    document.getElementById("profile-name").innerText = user.displayName;
+    document.getElementById("profile-email").innerText = user.email;
+    document.getElementById("profile-pic").src = user.photoURL;
+    loadTransactions();
+  }
+});
