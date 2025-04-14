@@ -54,3 +54,8 @@ function toggleAddForm() {
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
 });
+
+window.showTab = showTab;
+window.addTransaction = addTransaction;
+window.logout = logout;
+window.toggleAddForm = toggleAddForm;
