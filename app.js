@@ -18,11 +18,13 @@ firebase.auth().onAuthStateChanged(user => {
     document.getElementById("dashboard").classList.add("hidden");
   }
 });
+      updateCharts(transactions);
 
 document.getElementById("google-login").addEventListener("click", () => {
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider);
 });
+      updateCharts(transactions);
 
 function logout() {
   firebase.auth().signOut();
@@ -37,7 +39,8 @@ function addTransaction() {
   const desc = document.getElementById("desc").value;
   const amt = parseFloat(document.getElementById("amount").value);
   const type = document.getElementById("type").value;
-  const date = document.getElementById("date").value;
+  const category = document.getElementById("category").value;
+  date = document.getElementById("date").value;
   if (!desc || !amt || !date) return alert("Please fill all fields");
 
   const li = document.createElement("li");
@@ -54,6 +57,7 @@ function toggleAddForm() {
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
 });
+      updateCharts(transactions);
 
 window.showTab = showTab;
 window.addTransaction = addTransaction;
@@ -67,20 +71,25 @@ function loadTransactions() {
     .onSnapshot(snapshot => {
       const list = document.getElementById("transaction-list");
       list.innerHTML = "";
+      const transactions = [];
       snapshot.forEach(doc => {
         const data = doc.data();
         const li = document.createElement("li");
         li.textContent = `${data.date} - ${data.type} - ${data.desc}: $${data.amount}`;
         list.appendChild(li);
+      transactions.push(data);
       });
+      updateCharts(transactions);
     });
+      updateCharts(transactions);
 }
 
 function addTransaction() {
   const desc = document.getElementById("desc").value;
   const amt = parseFloat(document.getElementById("amount").value);
   const type = document.getElementById("type").value;
-  const date = document.getElementById("date").value;
+  const category = document.getElementById("category").value;
+  date = document.getElementById("date").value;
   if (!desc || !amt || !date) return alert("Please fill all fields");
 
   firebase.firestore().collection("transactions").add({
@@ -88,6 +97,7 @@ function addTransaction() {
     desc: desc,
     amount: amt,
     type: type,
+    category: category,
     date: date,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   }).then(() => {
@@ -95,6 +105,7 @@ function addTransaction() {
     document.getElementById("amount").value = "";
     toggleAddForm();
   });
+      updateCharts(transactions);
 }
 
 firebase.auth().onAuthStateChanged(user => {
@@ -109,3 +120,49 @@ firebase.auth().onAuthStateChanged(user => {
     loadTransactions();
   }
 });
+      updateCharts(transactions);
+
+let pieChart, barChart;
+
+function updateCharts(transactions) {
+  const expenseData = {};
+  const dailyTotals = {};
+
+  transactions.forEach(t => {
+    if (t.type === "expense") {
+      expenseData[t.category] = (expenseData[t.category] || 0) + t.amount;
+    }
+
+    const day = t.date;
+    dailyTotals[day] = (dailyTotals[day] || 0) + (t.type === "income" ? t.amount : -t.amount);
+  });
+
+  // Pie Chart
+  const pieCtx = document.getElementById("pie-chart").getContext("2d");
+  if (pieChart) pieChart.destroy();
+  pieChart = new Chart(pieCtx, {
+    type: "pie",
+    data: {
+      labels: Object.keys(expenseData),
+      datasets: [{
+        data: Object.values(expenseData),
+        backgroundColor: ["#f44336", "#4caf50", "#2196f3", "#ff9800", "#9c27b0"]
+      }]
+    }
+  });
+
+  // Bar Chart
+  const barCtx = document.getElementById("bar-chart").getContext("2d");
+  if (barChart) barChart.destroy();
+  barChart = new Chart(barCtx, {
+    type: "bar",
+    data: {
+      labels: Object.keys(dailyTotals),
+      datasets: [{
+        label: "Net Total",
+        data: Object.values(dailyTotals),
+        backgroundColor: "#4bc0c0"
+      }]
+    }
+  });
+}
