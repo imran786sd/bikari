@@ -72,6 +72,7 @@ function loadTransactions() {
       const list = document.getElementById("transaction-list");
       list.innerHTML = "";
       const transactions = [];
+      const transactions = [];
       snapshot.forEach(doc => {
         const data = doc.data();
         const li = document.createElement("li");
