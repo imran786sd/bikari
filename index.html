@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bikari - Mobile UI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4bc0c0">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="firebase-config.js"></script>
+  <script defer src="stripe.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header>
+    <div id="user-info">Please sign in</div>
+    <button id="theme-toggle">🌓</button>
+  </header>
+
+  <main>
+    <section id="login-section">
+      <button id="google-login">Login with Google</button>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <div class="tabs">
+        <button onclick="showTab('daily')">Daily</button>
+        <button onclick="showTab('monthly')">Monthly</button>
+        <button onclick="showTab('settings')">Settings</button>
+      </div>
+
+      <div id="daily" class="tab active">
+        <ul id="transaction-list"></ul>
+        <canvas id="daily-chart"></canvas>
+      </div>
+
+      <div id="monthly" class="tab">
+        <canvas id="bar-chart" style="height:300px;"></canvas>
+        <canvas id="pie-chart" style="height:300px;"></canvas>
+      </div>
+
+      <div id="settings" class="tab">
+        <p id="profile-name"></p>
+        <p id="profile-email"></p>
+        <img id="profile-pic" width="100" />
+        <br /><br />
+        <button onclick="startStripeCheckout()">Upgrade to Pro</button>
+        <button onclick="logout()">Logout</button>
+        <button id="download-csv" disabled>Download CSV</button>
+      </div>
+    </section>
+
+    <div id="add-form" class="add-form hidden">
+      <input type="text" id="desc" placeholder="Description" />
+      <input type="number" id="amount" placeholder="Amount" />
+      <select id="category"><option value="Food">Food</option><option value="Bills">Bills</option><option value="Travel">Travel</option><option value="Shopping">Shopping</option><option value="Other">Other</option></select><br><select id="type">
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+      <input type="date" id="date" />
+      <button onclick="addTransaction()">Add</button>
+    </div>
+
+    <button id="add-btn" onclick="toggleAddForm()">＋</button>
+  </main>
+</body>
+</html>
