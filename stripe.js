@@ -1,1 +1,1 @@
-function startStripeCheckout() { alert('Pro Mode'); }
+function startStripeCheckout(){ alert('Pro Mode Activated!'); }
