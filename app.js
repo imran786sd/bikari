@@ -1,1 +1,0 @@
-function addTransaction() { alert('Transaction added!'); }
