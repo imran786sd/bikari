@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bikari - Budget Tracker</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4bc0c0">
   <link rel="stylesheet" href="style.css" />
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -89,5 +91,15 @@
     <br />
     <button id="pro-upgrade">Upgrade to Pro</button>
   </div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('Service Worker registered:', reg.scope))
+      .catch(err => console.error('Service Worker error:', err));
+  });
+}
+</script>
 </body>
 </html>

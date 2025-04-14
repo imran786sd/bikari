@@ -1,0 +1,16 @@
+
+{
+  "name": "Bikari Budget Tracker",
+  "short_name": "Bikari",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4bc0c0",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/4207/4207245.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
