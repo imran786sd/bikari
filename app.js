@@ -15,22 +15,14 @@ function loginWithGoogle() {
 }
 
 function setupUserUI(user) {
-  document.getElementById("login-section")?.classList.add("hidden");
+  const userInfo = document.getElementById("user-info");
+  if (userInfo) userInfo.innerText = "Hi, " + user.displayName;
   document.getElementById("dashboard").classList.remove("hidden");
-  document.getElementById("user-info").innerText = "Hi, " + user.displayName;
-  document.getElementById("profile-name").innerText = user.displayName;
-  document.getElementById("profile-email").innerText = user.email;
-  document.getElementById("profile-pic").src = user.photoURL;
   loadTransactions();
 }
 
 function logout() {
   firebase.auth().signOut().then(() => location.reload());
-}
-
-function showTab(tabId) {
-  tabs.forEach(tab => tab.classList.remove("active"));
-  document.getElementById(tabId).classList.add("active");
 }
 
 function toggleAddForm() {
@@ -119,7 +111,6 @@ function updateCharts(data) {
 
 window.loginWithGoogle = loginWithGoogle;
 window.addTransaction = addTransaction;
-window.showTab = showTab;
 window.logout = logout;
 window.toggleAddForm = toggleAddForm;
 
