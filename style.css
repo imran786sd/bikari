@@ -53,3 +53,5 @@ nav button {
 .tab-content.active {
   display: block;
 }
+
+body.dark-mode { background:#121212; color:#fff; }

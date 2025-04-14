@@ -261,3 +261,5 @@ function setupProfile(user) {
     });
   });
 };
+
+// import and call startStripeCheckout from stripe.js
