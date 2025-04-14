@@ -1,1 +1,1 @@
-console.log('App logic here');
+// App logic placeholder

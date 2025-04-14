@@ -1,1 +1,1 @@
-firebase.initializeApp({ /* config */ });
+// Firebase config placeholder
