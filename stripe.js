@@ -1,1 +1,1 @@
-// Stripe logic placeholder
+function startStripeCheckout() { alert('Pro Mode'); }
