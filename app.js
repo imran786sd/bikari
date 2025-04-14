@@ -56,7 +56,10 @@ function addTransaction() {
   });
 }
 
+
 function loadTransactions() {
+  console.log("Loading transactions for:", currentUser.uid);
+
   const list = document.getElementById("transaction-list");
   list.innerHTML = "";
   const transactions = [];
@@ -65,7 +68,14 @@ function loadTransactions() {
     .orderBy("date", "desc")
     .onSnapshot(snapshot => {
       list.innerHTML = "";
+      
+      if (snapshot.empty) {
+        console.warn("No transactions found.");
+        return;
+      }
       snapshot.forEach(doc => {
+        console.log("Transaction:", doc.data());
+
         const data = doc.data();
         transactions.push(data);
         const li = document.createElement("li");
